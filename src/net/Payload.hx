@@ -1,6 +1,7 @@
 package net;
 
 import openfl.utils.Object;
+import protocol.IPayload;
 /**
  * ...
  * @author Christopher Speciale

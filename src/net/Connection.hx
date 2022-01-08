@@ -87,7 +87,7 @@ class Connection
 		if(_connected){
 		_send(data);
 		} else {
-			_dispatchError("Cannot continue operation on an invalid connection");
+			_dispatchError(RUDPError.IO_ERROR, "Cannot continue operation on an invalid connection");
 		}
 	}
 	
@@ -98,7 +98,7 @@ class Connection
 	
 	private function _close():Void{
 		_onClose();
-		@:privateAccess _rudp._udpSocket.dispatchEvent(new RUDPEvent(RUDPEvent.CLOSE, false, false, "", this));
+		@:privateAccess _rudp._udpSocket.dispatchEvent(new RUDPEvent(RUDPEvent.CLOSE, false, false, this));
 		
 	}
 	
@@ -125,8 +125,8 @@ class Connection
 		_outSequence = _ackPosition = Math.round(Math.random() * SUInt.MAX_UINT_32);
 	}
 	
-	private function _dispatchError(errorMessage:String):Void{
-		@:privateAccess _rudp._udpSocket.dispatchEvent(new RUDPEvent(RUDPEvent.ERROR, false, false, errorMessage, this));
+	private function _dispatchError(error:RUDPError, errorMessage:String):Void{
+		@:privateAccess _rudp._udpSocket.dispatchEvent(new RUDPErrorEvent(RUDPErrorEvent.ERROR, false, false, error, errorMessage, this));
 	}
 
 	private function _handleConnection():Void
@@ -144,7 +144,7 @@ class Connection
 	
 	private function _onConnectionFailed():Void{
 		_onClose();
-		if (!_isIncoming) _dispatchError("Remote connection attempt has timed out and the connection could not be completed");
+		if (!_isIncoming) _dispatchError(CONNECTION_ERROR, "Remote connection attempt has timed out and the connection could not be completed");
 		
 	}
 	
@@ -299,7 +299,7 @@ class Connection
 		_stopConnectionAttempt();
 		_setKeepAlive();
 
-		var event:RUDPEvent = new RUDPEvent(RUDPEvent.CONNECT, false, false, "", this);
+		var event:RUDPEvent = new RUDPEvent(RUDPEvent.CONNECT, false, false, this);
 		var udpSocket:DatagramSocket = @:privateAccess _rudp._udpSocket;
 
 		udpSocket.dispatchEvent(event);

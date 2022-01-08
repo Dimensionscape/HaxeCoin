@@ -4,5 +4,6 @@
 	"nodeType": "full",
 	"miner":true,
 	"blockchainVer":"0.01",
-	"protocolVer":"0.01"
+	"protocolVer":"0.01",
+	"remoteEndpoints":["asdfasdfasdf:34233", "asdfasdfasdf:34233", "asdfasdfasdf:34233", "192.168.1.197:34970"]
 }

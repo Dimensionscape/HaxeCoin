@@ -13,8 +13,9 @@ class Config implements IConfig
 	public var blockchainVer:String;
 	public var protocolVer:String;
 	public var miner:Bool;
+	public var remoteEndpoints:Array<String>;
 	
-	public function new(ip:String, port:Int, nodeType:String, miner:Bool, blockchainVer:String, protocolVer:String) 
+	public function new(ip:String, port:Int, nodeType:String, miner:Bool, blockchainVer:String, protocolVer:String, remoteEndpoints:Array<String>) 
 	{
 		this.ip = ip;
 		this.port = port;
@@ -22,6 +23,7 @@ class Config implements IConfig
 		this.miner = miner;
 		this.blockchainVer = blockchainVer;
 		this.protocolVer = protocolVer;
+		this.remoteEndpoints = remoteEndpoints;
 	}
 	
 }

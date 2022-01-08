@@ -1,19 +1,26 @@
 package protocol;
 import haxe.ds.IntMap;
+import net.RUDP;
 import openfl.utils.Function;
 import openfl.utils.Object;
 /**
  * ...
  * @author Christopher Speciale
  */
-class NetEventDispatcher{
+class NetEventDispatcher
+{
+
+	public var communications:RUDP;
 
 	private var _eventMap:IntMap<Function>;
-	
-	public function new()
+
+	public function new(?communications:RUDP)
 	{
-		_eventMap = new IntMap();		
-		
+		_eventMap = new IntMap();
+		if (communications != null)
+		{
+			this.communications = communications;
+		}
 	}
 
 	public function addNetEventListener(event:Int, listener:Function):Void
@@ -30,6 +37,5 @@ class NetEventDispatcher{
 	{
 		if (_eventMap.exists(event)) _eventMap.get(event)();
 	}
-	
 
 }

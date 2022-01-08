@@ -1,7 +1,7 @@
 package core;
-import net.Peer;
-import net.IFullNode;
-import net.INode;
+import protocol.Peer;
+import protocol.IFullNode;
+import protocol.INode;
 import openfl.Lib;
 import openfl.events.Event;
 import protocol.Millipede;

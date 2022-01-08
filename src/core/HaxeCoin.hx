@@ -1,6 +1,6 @@
 package core;
 import haxe.Json;
-import net.INode;
+import protocol.INode;
 import openfl.Assets;
 
 /**

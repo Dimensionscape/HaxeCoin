@@ -26,7 +26,7 @@ class RUDP
 	public var onData(get, set):(ByteArray, Connection)->Void;
 	public var onConnect(get, set):RUDPEvent->Void;
 	public var onClose(get, set):RUDPEvent->Void;
-	public var onError(get, set):RUDPEvent->Void;
+	public var onError(get, set):RUDPErrorEvent->Void;
 
 	public var receiving(get, null):Bool;
 
@@ -35,25 +35,25 @@ class RUDP
 	private var _onData:(ByteArray, Connection)->Void;
 	private var _onConnect:RUDPEvent->Void;
 	private var _onClose:RUDPEvent->Void;
-	private var _onError:RUDPEvent->Void;
+	private var _onError:RUDPErrorEvent->Void;
 
 	private var _receiving:Bool = false;
 
 
 	private var _connectionMap:StringMap<Connection>;
 	
-	private function get_onError():RUDPEvent->Void
+	private function get_onError():RUDPErrorEvent->Void
 	{
 		return _onError;
 	}
 	
-	private function set_onError(value:RUDPEvent->Void):RUDPEvent->Void
+	private function set_onError(value:RUDPErrorEvent->Void):RUDPErrorEvent->Void
 	{
 		if (onError != null){		
-		_udpSocket.removeEventListener(RUDPEvent.ERROR, _onError);		
-		_udpSocket.addEventListener(RUDPEvent.ERROR, value);
-		}
+		_udpSocket.removeEventListener(RUDPErrorEvent.ERROR, _onError);		
 		
+		}
+		_udpSocket.addEventListener(RUDPErrorEvent.ERROR, value);
 		return _onError = value;
 	}
 	
@@ -77,8 +77,9 @@ class RUDP
 	{
 		if (_onConnect != null){
 			_udpSocket.removeEventListener(RUDPEvent.CONNECT, _onConnect);
-			_udpSocket.addEventListener(RUDPEvent.CONNECT, value);
+			
 		}
+		_udpSocket.addEventListener(RUDPEvent.CONNECT, value);
 		
 		return _onConnect = value;
 	}
@@ -92,8 +93,9 @@ class RUDP
 	{
 		if (_onClose != null){
 			_udpSocket.removeEventListener(RUDPEvent.CLOSE, _onClose);
-			_udpSocket.addEventListener(RUDPEvent.CLOSE, value);
+			
 		}
+		_udpSocket.addEventListener(RUDPEvent.CLOSE, value);
 		return _onClose = value;
 	}
 
@@ -120,7 +122,7 @@ class RUDP
 
 	}
 
-	public function start(onData:(ByteArray, Connection)->Void, onConnect:RUDPEvent->Void, onClose:RUDPEvent->Void, onError:RUDPEvent->Void = null, connectionType:ConnectionType = CLIENT):Void
+	public function start(onData:(ByteArray, Connection)->Void, onConnect:RUDPEvent->Void, onClose:RUDPEvent->Void, onError:RUDPErrorEvent->Void = null, connectionType:ConnectionType = CLIENT):Void
 	{
 
 		_udpSocket = new DatagramSocket();
@@ -134,7 +136,7 @@ class RUDP
 		_udpSocket.addEventListener(RUDPEvent.CONNECT, onConnect);
 		_udpSocket.addEventListener(RUDPEvent.CLOSE, onClose);
 		if (onError != null){
-			_udpSocket.addEventListener(RUDPEvent.ERROR, onError);
+			_udpSocket.addEventListener(RUDPErrorEvent.ERROR, onError);
 		}
 		Lib.application.window.application.onExit.add(_close);
 

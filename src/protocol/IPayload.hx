@@ -1,4 +1,4 @@
-package net;
+package protocol;
 import openfl.utils.Object;
 
 /**

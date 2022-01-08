@@ -3,7 +3,8 @@ package net;
 /**
  * @author Christopher Speciale
  */
-interface ILiteNode 
+enum RUDPError 
 {
-  
+	CONNECTION_ERROR;
+	IO_ERROR;
 }

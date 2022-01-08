@@ -11,4 +11,5 @@ interface IConfig
 	var blockchainVer:String;
 	var protocolVer:String;
 	var miner:Bool;
+	var remoteEndpoints:Array<String>;
 }
