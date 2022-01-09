@@ -9,7 +9,7 @@ class RUDPErrorEvent extends RUDPEvent
 	public static inline var ERROR:String = "error";
 	public var errorMessage(default, null):String;
 	public var error(default, null):RUDPError;
-	public function new(type:String, bubbles:Bool=false, cancelable:Bool=false, error:RUDPError, errorMessage:String = "", connection:Connection) 
+	public function new(type:String, bubbles:Bool=false, cancelable:Bool=false, error:RUDPError, errorMessage:String = "", ?connection:Connection) 
 	{
 		super(type, bubbles, cancelable, connection);
 		this.error = error;

@@ -1,6 +1,9 @@
 package protocol;
 
-import net.NodeType;
+import core.HaxeCoin;
+import net.Connection;
+import protocol.NodeType;
+import openfl.errors.Error;
 import openfl.utils.ByteArray;
 import openfl.utils.Object;
 import net.RUDP;
@@ -11,47 +14,43 @@ import net.RUDP;
 class Peer 
 {
 	public var nodeType(default, null):NodeType;
+	public var id:String = "";
+	
+	private var connection:Connection;
 	
 	private var payloadLength:Int;
 	
-	private var _readBuffer:ByteArray;	
+	private var _readBuffer:ByteArray;
+	private var _writeBuffer:ByteArray;
 	
-	@:noCompletion private function new(ip:String, port:Int, nodeType:NodeType) 
+	@:noCompletion private function new(connection:Connection) 
 	{
-		_readBuffer = new ByteArray();
+		_readBuffer = new ByteArray();		
+		_writeBuffer = new ByteArray();
 		
-		this.nodeType = nodeType;
+		this.connection = connection;
+	
+	}	
+	
+	//public function updateDelta():Void{
+	//	
+	//}
+	
+	
+	
+	public function send(payload:IPayload):Void{
+		trace('requesting peer id');
+		_writeBuffer.position = 4;
+		_writeBuffer.writeObject(payload);
+		_writeBuffer.position = 0;
+		_writeBuffer.writeUnsignedInt(_writeBuffer.length - 4);
 		
-		switch(nodeType){
-			case LITE_NODE:
-				setupLiteNode();
-			case HALF_NODE:
-				setupHalfNode();
-			case FULL_NODE:
-				setupFullNode();
-		}	
-	}
-	
-	public function setupLiteNode():Void{
-		trace("light");
-	}
-	
-	public function setupHalfNode():Void{
-		trace("half");
-	}
-	
-	public function setupFullNode():Void{
-		trace("full");
-	}
-	
-	public function updateDelta():Void{
-		
+		connection.send(_writeBuffer);
 	}
 	
 	
-	//private function receive(
-	public static function connect(ip:String, port:Int, nodeType:NodeType = LITE_NODE):Peer{
-		return new Peer(ip, port, nodeType);
+	private static function _getPeer(connection:Connection):Peer{
+		return new Peer(connection);
 	}
 	
 	

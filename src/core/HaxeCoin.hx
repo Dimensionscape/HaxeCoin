@@ -18,9 +18,10 @@ class HaxeCoin
 	}
 	
 	public var config(get, null):IConfig;
-
+	public var agent(default, null):Agent;
+	
 	private var _config:IConfig;
-	private var _agent:Agent;
+	
 	
 	private function get_config():IConfig{
 		return _config;
@@ -46,7 +47,7 @@ class HaxeCoin
 	}
 	
 	private function _loadFromConfigObject():Void{
-		_agent = new Agent();
+		agent = new Agent();
 	}
 	
 	public static function start(?config:Config):HaxeCoin{

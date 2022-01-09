@@ -6,6 +6,6 @@ import openfl.utils.Object;
  */
 interface IPayload 
 {
-	var event:Int;
+	var event:EnumValue;
 	var data:Object;
 }
