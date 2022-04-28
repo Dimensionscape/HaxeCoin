@@ -1,7 +1,7 @@
 {
 	"ip":"192.168.1.197",
 	"port":34970,
-	"nodeType": "full",
+	"nodeType": "lite",
 	"miner":true,
 	"blockchainVer":"0.01",
 	"protocolVer":"0.01",

@@ -13,11 +13,11 @@ class Node implements INode
 	public var nodeType(default, null):NodeType;
 	public var neighborCount(get, null):UInt;
 	public var peerID(get, null):String;
-	
 	public var fullNodeCount(default, null):UInt = 0;
 	public var halfNodeCount(default, null):UInt = 0;
 	public var liteNodeCount(default, null):UInt = 0;
-	
+	public var intent:Intent = BOOTSTRAP;
+	public var bootstrapNode:Peer;
 	private var _neighborCount:UInt = 0;
 	private var _millipede:Millipede;
 	private var _liteNodes:StringMap<Peer>;
@@ -58,7 +58,7 @@ class Node implements INode
 	
 	private function _generatePeerID():Void{
 		var uuid:String = GUID.uuid();
-		uuid = Sha1.encode(uuid);
+		uuid = Sha1.encode('${_millipede.communications.localAddress}:${_millipede.communications.localPort}' + uuid);
 		_peerID = uuid;
 		
 	}

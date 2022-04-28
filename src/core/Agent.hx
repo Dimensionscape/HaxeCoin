@@ -15,7 +15,7 @@ class Agent
 	//public var connection:Connection<INode>;
 	public function new() 
 	{
-		protocol = new Millipede(HXEventCommands, HXEventCommandsEnum);
+		protocol = new Millipede(HXEventCommands, HXEventCommandsEnum, HaxeCoin.current.config.nodeType);
 		//connection = Connection.connect(HaxeCoin.current.config.ip, HaxeCoin.current.config.port, HaxeCoin.current.config.nodeType);
 		Lib.current.addEventListener(Event.ENTER_FRAME, _onDeltaUpdate);
 	}

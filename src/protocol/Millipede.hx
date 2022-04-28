@@ -26,6 +26,8 @@ class Millipede extends NetEventDispatcher
 	
 	public var node(get, null):Node;
 	public var nodeType(default, null):NodeType;
+	public var bootstrapper(default, null):Bootstrapper;
+	
 	private var _courier:Courier;
 	private var _endpointIterator:Iterator<String>;
 	
@@ -46,18 +48,19 @@ class Millipede extends NetEventDispatcher
 				return _fullNode;
 		}
 	}
-	
-	
+			
 	public function new(eventCommandsC:Class<EventCommands>, eventCommandsEnum = null, nodeType:NodeType = LITE_NODE)
 	{
 		super();
-			
+	
 		current = this;
 		_loadEventCommands(eventCommandsC, eventCommandsEnum);
 		
+		@:privateAccess bootstrapper = new Bootstrapper();
+		
 		this.nodeType = nodeType;
 		communications = new RUDP();
-		_courier = new Courier();
+		_courier = new Courier(this);
 
 		communications.start(_courier.onData, _onConnectToEndpoint, _courier.onClose, _courier.onError, SERVER);
 
@@ -71,13 +74,6 @@ class Millipede extends NetEventDispatcher
 				_setupFullNode();
 		}
 
-		//var p:Peer = Peer.connect("adfsasdf", 234234);
-		//_udp.start((_courier = new Courier(this)).reciever, onConnect, onClose, onError);
-		//_udp.connect("192.168.1.197", 34970);
-		//var ba:ByteArray = new ByteArray();
-		//ba.writeUTF("Hello World4");
-		//_udp.connect("192.168.1.197", 34970);
-		//_udp.send(ba, "192.168.1.197", 34970);
 
 	}
 	
@@ -106,15 +102,15 @@ class Millipede extends NetEventDispatcher
 		for (field in commandFields){
 			if (Reflect.isFunction(Reflect.field(_eventCommands, field))){
 				commandMethodFields.push(field);
+				
 			}
 		}
 		
 		for (field in commandMethodFields){
-			var index:EnumValue = commandMap.get(field);
+			var enumValue:EnumValue = commandMap.get(field);
 			var method:Function = Reflect.field(_eventCommands, field);
-			this.addNetEventListener(index, method);
+			this.setNetEventListener(enumValue, method);
 			
-			trace(index, method);
 		}
 		
 		

@@ -23,19 +23,24 @@ class NetEventDispatcher
 		}
 	}
 
-	public function addNetEventListener(event:EnumValue, listener:Function):Void
+	public function setNetEventListener(eventEnum:EnumValue, listener:Function):Void
 	{
-		_eventMap.set(event, listener);
+		_eventMap.set(eventEnum, listener);
+		trace(eventEnum);
+		trace(_eventMap.toString());
 	}
 
-	public function removeNetEventListener(event:EnumValue):Void
+	public function removeNetEventListener(eventEnum:EnumValue):Void
 	{
-		_eventMap.remove(event);
+		_eventMap.remove(eventEnum);
 	}
 
-	public function dispatchNetEvent(event:EnumValue, ?data:Object):Void
+	public function dispatchNetEvent(event:NetEvent):Void
 	{
-		if (_eventMap.exists(event)) _eventMap.get(event)();
+		trace("dispatch event", event.payload.eventEnum);
+		var eventEnum:EnumValue = event.payload.eventEnum;
+		if (_eventMap.exists(eventEnum)) _eventMap.get(eventEnum)(event);
+		
 	}
 
 }

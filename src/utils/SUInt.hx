@@ -9,7 +9,7 @@ abstract SUInt(Int) to Int from Int
 {
 	public static inline var MAX_UINT_32:UInt = MAX_INT_32 + MAX_INT_32 + 1;
 	public static inline var MAX_INT_32:Int = 2147483647;
-	public static inline var ABS_MIN_INT_32:UInt = MAX_INT_32+1;
+	public static inline var ABS_MIN_INT_32:UInt = MAX_INT_32 + 1;
 	
 	@:op(A + B) private static inline function add(a:SUInt, b:SUInt):SUInt {
 		return a.toInt() + b.toInt();
@@ -33,27 +33,18 @@ abstract SUInt(Int) to Int from Int
 		var i1:UInt = a;
 		var i2:UInt = b;
 		var distance:UInt = 0;
-		//trace(Std.int(i1), Std.int(i2));
 
 		if ((i1 < i2 && (distance = i2 - i1) > ABS_MIN_INT_32) ||
 		(i1 > i2 && (distance = i1 - i2) < ABS_MIN_INT_32))
 		{
 			return true;
 		}
-		//trace(distance == Seq.compliment);
 		if (distance == ABS_MIN_INT_32)
 		{
 			return i1 > i2;
 		}
 		return false;
-
-		//  trace(a, b);
-		//return (aValue < bValue && bValue - aValue > Seq.MAX_INT_32) ||
-		//(aValue > bValue && aValue - bValue < Seq.MAX_INT_32);
-
-		/*var aNeg = a.toInt() < 0;
-		var bNeg = b.toInt() < 0;
-		return if (aNeg != bNeg) aNeg; else a.toInt() > b.toInt();*/
+	
 	}
 
 	@:op(A >= B)
@@ -233,7 +224,6 @@ abstract SUInt(Int) to Int from Int
 		return this--;
 	}
 
-	// TODO: radix is just defined to deal with doc_gen issues
 	private inline function toString(?radix:Int):String
 	{
 		return Std.string(toFloat());
@@ -252,8 +242,6 @@ abstract SUInt(Int) to Int from Int
 	}
 	else
 	{
-		// + 0.0 here to make sure we promote to Float on some platforms
-		// In particular, PHP was having issues when comparing to Int in the == op.
 		return int + 0.0;
 	}
 }

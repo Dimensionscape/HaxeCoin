@@ -7,5 +7,7 @@ package protocol;
 
 enum EventCommandsEnum
 {
-	sharePeerID;
+	sharePeerID;	
+	declareIntent;
+	bootstrap;
 }

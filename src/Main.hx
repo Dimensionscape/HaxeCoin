@@ -17,11 +17,12 @@ import openfl.utils.Object;
  */
 class Main extends Sprite 
 {
-
+	
 	public function new() 
 	{
 		super();
 		
+	
 		// Assets:
 		// openfl.Assets.getBitmapData("img/assetname.jpg");
 		var blockchain:Blockchain = new Blockchain();

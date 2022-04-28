@@ -24,6 +24,7 @@ class Connection
 	public var port(get, null):Int;
 	public var hash(default, null):String;
 	public var connected(get, null):Bool;
+	public var isIncoming(get, null):Bool;
 	
 	public var timeout:UInt = 20000;
 	
@@ -49,6 +50,9 @@ class Connection
 	
 	private var _writeBuffer:ByteArray;	
 	
+	private function get_isIncoming():Bool{
+		return _isIncoming;
+	}
 	private function get_connected():Bool
 	{
 		return _connected;

@@ -4,11 +4,11 @@ package protocol;
  * ...
  * @author Christopher Speciale
  */
-enum NodeType 
+enum abstract NodeType(String) from String to NodeType
 {
 
-	LITE_NODE;
-	HALF_NODE;
-	FULL_NODE;
+	var LITE_NODE = "lite";
+	var HALF_NODE = "half";
+	var FULL_NODE = "full";
 	
 }

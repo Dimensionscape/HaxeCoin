@@ -10,11 +10,11 @@ import protocol.IPayload;
 abstract Payload(Object) from IPayload to Object
 {
 	
-	
-	public inline function new(event:EnumValue, ?data){
+	public inline function new(eventEnum:EnumValue, ?data, ?op:UInt = 0){
 		this = new Object();
 		this.data = data == null ? {} : data;
-		this.event = event;
+		this.eventEnum = eventEnum;
+		this.op = op;
 	}
 	
 	
